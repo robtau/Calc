@@ -1,7 +1,7 @@
 # Calc<br/>
 C++ implementation of arbitrary-precision calculator<br/><br/>
 
-This program was created in cooperation with my fellow Michał as a part of our semester-ending work, his git can be found at https://github.com/R3zn0v.<br/><br/>
+This program was created in cooperation with my fellow Michał as a part of our semester-ending work, his git can be found at https://github.com/R3zn0w.<br/><br/>
 
 The idea came from fact that the highest possible accuracy in computer calculations is double-precision with 15 significant figures at most. We wanted to go beyond this limitation so that our only limit would be memory of a computer.<br/>
 We managed to get it working pretty good, at this moment (28.10.18) our little program is able to:<br/>
