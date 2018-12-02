@@ -185,47 +185,59 @@ std::vector <char> Kalkulator::obliczansko(std::vector <char> &komendy){
     }
     return stos.top();
 }
-bool Kalkulator::walidacja(std::vector <char> &znaki){
-    bool przecinek=false;
-    long long nawiasy=0;
-    for(unsigned long long int i=0;i<static_cast<unsigned long long int>(znaki.size());i++){
-        if (nawiasy<0)
-            return false;
-        if (!(znaki[i]=='-' || znaki[i]=='+' || znaki[i]=='/' || znaki[i]=='*' || znaki[i]=='(' || znaki[i]==')' || znaki[i]==',' || (znaki[i]>=48 && znaki[i]<=57)))
-            return false;
-        if (znaki[i]==','){
-            if (!(znaki[i-1]<=57 && znaki[i-1]>=48 && znaki[i+1]<=57 && znaki[i+1]>=48))
-                return false;
-            else if (przecinek)
-                return false;
-            else
-                przecinek=true;
-        }
-        else if(znaki[i]=='-' || znaki[i]=='+' || znaki[i]=='/' || znaki[i]=='*'){
-            if (znaki[i+1]=='-' || znaki[i+1]=='*' || znaki[i+1]=='+' || znaki[i+1]=='/' || znaki[i+1]==')' || (i==znaki.size()-1))
-                return false;
-            if ((znaki[i-1]<=57 && znaki[i-1]>=48 && znaki[i+1]<=57 && znaki[i+1]>=48) || znaki[i+1]=='(')
-                przecinek=false;
-        }
-        else if(znaki[i]=='('){
-            nawiasy++;
-            if (((znaki[i-1]=='*' || znaki[i-1]=='/' || znaki[i-1]=='+' || znaki[i-1]=='-' || znaki[i-1]=='(') && ((znaki[i+1]<=57 && znaki[i+1]>=48) || znaki[i+1]=='-')) || i==0 || znaki[i+1] =='(')
-                    przecinek=false;
-            else
-                return false;
-                }
-        else if(znaki[i]==')'){
-            if (((znaki[i+1]=='*' || znaki[i+1]=='/' || znaki[i+1]=='+' || znaki[i+1]=='-') && (znaki[i-1]<=57 && znaki[i-1]>=48)) || znaki[i-1]==')' || znaki[i+1]==')' || i==znaki.size()-1){
-                nawiasy--;
-                przecinek=false;}
-            else
-                return false;
-        }
-    }
-if (nawiasy!=0)
-    return false;
-return true;
-}
+bool Kalkulator::walidacja(std::vector <char> &znaki) {
+		bool przecinek = false;
+		long long nawiasy = 0;
+		for (unsigned long long int i = 0; i < static_cast<unsigned long long int>(znaki.size()); i++) {
+			if (!(znaki[i] == '-' || znaki[i] == '+' || znaki[i] == '/' || znaki[i] == '*' || znaki[i] == '(' || znaki[i] == ')' || znaki[i] == ',' || (znaki[i] >= 48 && znaki[i] <= 57)))
+				return false;
+			if (znaki[i] == ',') {
+				if (!(znaki[i - 1] <= 57 && znaki[i - 1] >= 48 && znaki[i + 1] <= 57 && znaki[i + 1] >= 48))
+					return false;
+				else if (przecinek)
+					return false;
+				else
+					przecinek = true;
+			}
+			 else if (znaki[i] == '-' || znaki[i] == '+' || znaki[i] == '/' || znaki[i] == '*') {
+				if (znaki[i + 1] == '-' || znaki[i + 1] == '*' || znaki[i + 1] == '+' || znaki[i + 1] == '/' || znaki[i + 1] == ')' || (i == znaki.size() - 1))
+					return false;
+				if ((znaki[i - 1] <= 57 && znaki[i - 1] >= 48 && znaki[i + 1] <= 57 && znaki[i + 1] >= 48) || znaki[i + 1] == '(')
+					przecinek = false;
+			}
+			else if (znaki[i] == '(') {
+				nawiasy++;
+				if (i == znaki.size() - 1) {
+					return false;
+				}
+				if (i == 0) {
+					continue;
+				}
+				else if (((znaki[i - 1] == '*' || znaki[i - 1] == '/' || znaki[i - 1] == '+' || znaki[i - 1] == '-' || znaki[i - 1] == '(') && ((znaki[i + 1] <= 57 && znaki[i + 1] >= 48) || znaki[i + 1] == '-')) || i == 0 || znaki[i + 1] == '(')
+					przecinek = false;
+				else
+					return false;
+			}
+			else if (znaki[i] == ')') {
+				if (i == znaki.size() - 1) {
+					nawiasy--;
+					break;
+				}
+				if (i == 0) {
+					return false;
+				}
+				if (((znaki[i + 1] == '*' || znaki[i + 1] == '/' || znaki[i + 1] == '+' || znaki[i + 1] == '-') && (znaki[i - 1] <= 57 && znaki[i - 1] >= 48)) || znaki[i - 1] == ')' || znaki[i + 1] == ')' || i == znaki.size() - 1) {
+					nawiasy--;
+					przecinek = false;
+				}
+				else
+					return false;
+			}
+		}
+		if (nawiasy != 0)
+			return false;
+		return true;
+	}
 void Kalkulator::czysc(std::vector<char> &c) {
     while (c.front() == '0')
         c.erase(c.begin());
